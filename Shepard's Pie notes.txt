@@ -1,0 +1,6 @@
+- Order can be for delivery or dine in
+
+- Total cost for order (Calculated Property)
+
+- Delivery has a $5 charge 
+
