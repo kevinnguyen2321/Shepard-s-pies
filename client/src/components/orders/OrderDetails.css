@@ -1,0 +1,17 @@
+.pizza-wrapper {
+  border: solid black;
+  display: flex;
+  gap: 15px;
+}
+
+.order-total-wrapper {
+  display: flex;
+  border: solid black;
+  gap: 15px;
+  align-items: center;
+}
+
+.order-total-wrapper p {
+    margin-top: 12px;
+    font-size: 1.2rem;
+}

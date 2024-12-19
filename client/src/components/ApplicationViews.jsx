@@ -4,6 +4,7 @@ import Login from './auth/Login';
 import Register from './auth/Register';
 import { Home } from './home/Home';
 import { OrdersList } from './orders/OrdersList';
+import { OrderDetails } from './orders/OrderDetails';
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -18,7 +19,10 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           }
         />
 
-        <Route path="orders" element={<OrdersList />} />
+        <Route path="orders">
+          <Route index element={<OrdersList />} />
+          <Route path=":orderId" element={<OrderDetails />} />
+        </Route>
 
         <Route
           path="login"
