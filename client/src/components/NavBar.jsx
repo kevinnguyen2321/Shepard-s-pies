@@ -21,13 +21,22 @@ export default function NavBar({ loggedInUser, setLoggedInUser }) {
     <div>
       <Navbar color="light" light fixed="true" expand="lg">
         <NavbarBrand className="mr-auto" tag={RRNavLink} to="/">
-          🧹🧼House Rules
+          🍕Shepard's Pies🍕
         </NavbarBrand>
         {loggedInUser ? (
           <>
             <NavbarToggler onClick={toggleNavbar} />
             <Collapse isOpen={open} navbar>
-              <Nav navbar></Nav>
+              <Nav navbar>
+                {loggedInUser ? (
+                  <NavItem>
+                    {' '}
+                    <NavLink tag={RRNavLink} to="/orders">
+                      Orders
+                    </NavLink>{' '}
+                  </NavItem>
+                ) : null}
+              </Nav>
             </Collapse>
             <Button
               color="primary"

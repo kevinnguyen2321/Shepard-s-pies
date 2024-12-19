@@ -19,4 +19,35 @@ public class Order
     [Range(0, double.MaxValue, ErrorMessage = "Tip must be non-negative.")]
     public decimal? Tip { get; set; }
     public List<Pizza> Pizzas { get; set; } = new List<Pizza>();
+
+     public decimal TotalPrice
+    {
+        get
+        {
+            decimal total = 0M;
+
+            foreach (Pizza pizza in Pizzas)
+            {
+                total += pizza.TotalWithToppings;
+                
+            }
+            
+            //Add driver fee if there's a driver
+            if (DriverId != null) 
+            {
+                total += 5.00M; //Delivery fee
+                
+            }
+            
+            //Check if there is a tip
+            if (Tip.HasValue) 
+            {
+                total += Tip.Value; //Tip
+                
+            }
+            
+            return total;
+
+        }
+    } 
 }
