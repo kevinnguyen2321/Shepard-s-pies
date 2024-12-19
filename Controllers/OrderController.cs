@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ShepardPies.Models;
 using ShepardPies.Models.DTOs;
 
+
 namespace ShepardPies.Controllers;
 
 [ApiController]
@@ -25,25 +26,24 @@ public class OrderController : ControllerBase
         DateTime today = DateTime.Today;
         List<Order> orders = _dbContext.Orders
             .Where(o => o.OrderPlacedOn.Date == today)
-            .OrderByDescending(o => o.OrderPlacedOn)
-            .ToList();
-
-        if (orders.Count == 0)
-        {
-        // Optionally include fallback to show all orders
-        orders = _dbContext.Orders
+            .Include(o => o.OrderTaker)
+            .Include(o => o.Driver)
+            .Include(o => o.Pizzas)
             .OrderByDescending(o => o.OrderPlacedOn)
             .ToList();
 
             if (orders.Count == 0)
             {
-                return Ok(new { message = "No orders found." });
+                orders = _dbContext.Orders
+                    .Include(o => o.OrderTaker)
+                    .Include(o => o.Driver)
+                    .Include(o => o.Pizzas)
+                    .OrderByDescending(o => o.OrderPlacedOn)
+                    .ToList();
+                
             }
 
-        return Ok(new { message = "No orders found for today. Showing all orders.", orders });
-        }
-
-        return Ok(orders);
+            return Ok(orders);
     }
 
 

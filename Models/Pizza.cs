@@ -19,4 +19,22 @@ public class Pizza
     public int OrderId { get; set; }
     public Order Order { get; set; }
     public List<Topping> Toppings { get; set; } = new List<Topping>();
+
+    public decimal TotalWithToppings 
+    {
+        get
+        {
+            decimal pizzaTotal = Price;
+           
+            foreach (Topping topping in Toppings)
+            {
+
+                pizzaTotal += 0.50M;
+            }
+           
+
+           
+           return pizzaTotal;
+        }
+    }
 }
