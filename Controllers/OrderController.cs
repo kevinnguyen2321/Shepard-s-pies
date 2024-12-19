@@ -19,8 +19,9 @@ public class OrderController : ControllerBase
         _dbContext = context;
     }
 
+    
     [HttpGet]
-    // [Authorize]
+    [Authorize]
     public IActionResult Get()
     {
         DateTime today = DateTime.Today;
@@ -29,6 +30,7 @@ public class OrderController : ControllerBase
             .Include(o => o.OrderTaker)
             .Include(o => o.Driver)
             .Include(o => o.Pizzas)
+            .ThenInclude(p => p.Toppings)
             .OrderByDescending(o => o.OrderPlacedOn)
             .ToList();
 
@@ -38,6 +40,7 @@ public class OrderController : ControllerBase
                     .Include(o => o.OrderTaker)
                     .Include(o => o.Driver)
                     .Include(o => o.Pizzas)
+                    .ThenInclude(p => p.Toppings)
                     .OrderByDescending(o => o.OrderPlacedOn)
                     .ToList();
                 
@@ -48,12 +51,77 @@ public class OrderController : ControllerBase
 
 
     
-    // [HttpGet("{id}")]
-    // [Authorize]
-    // public IActionResult GetById(int id)
-    // {
+    [HttpGet("{id}")]
+    [Authorize]
+    public IActionResult GetById(int id)
+    {
+        Order foundOrder = _dbContext.Orders
+            .Include(o => o.OrderTaker)
+            .Include(o => o.Driver)
+            .Include(o => o.Pizzas)
+            .ThenInclude(p => p.Sauce)
+            .Include(o => o.Pizzas)
+            .ThenInclude(p => p.Cheese)
+            .Include(o => o.Pizzas)
+            .ThenInclude(p => p.Toppings)
+            .FirstOrDefault(o => o.Id == id);
+
+            if (foundOrder == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new OrderDTO
+            {
+                Id = foundOrder.Id,
+                OrderPlacedOn = foundOrder.OrderPlacedOn,
+                UserProfileId = foundOrder.UserProfileId,
+                OrderTaker = new UserProfileDTO
+                {
+                    Id = foundOrder.OrderTaker.Id,
+                    FirstName = foundOrder.OrderTaker.FirstName,
+                    LastName = foundOrder.OrderTaker.LastName,
+                },
+                DriverId = foundOrder.DriverId,
+                Driver = foundOrder.Driver == null ? null : new UserProfileDTO
+                {
+                    Id = foundOrder.Driver.Id,
+                    FirstName = foundOrder.Driver.FirstName,
+                    LastName = foundOrder.Driver.LastName,
+                },
+                Tip = foundOrder.Tip != null ? foundOrder.Tip : null,
+                Pizzas = foundOrder.Pizzas != null ? foundOrder.Pizzas
+                .Select(p => new PizzaDTO
+                {
+                    Id = p.Id,
+                    Size = p.Size,
+                    Price = p.Price,
+                    SauceId = p.SauceId,
+                    Sauce = p.Sauce != null ? new SauceDTO
+                    {
+                        Id = p.Sauce.Id,
+                        Name = p.Sauce.Name,
+                    }:null,
+                    CheeseId = p.CheeseId,
+                    Cheese = p.Cheese != null ? new CheeseDTO
+                    {
+                        Id = p.Cheese.Id,
+                        Name = p.Cheese.Name,
+                    }:null,
+                    Toppings = p.Toppings != null ?  p.Toppings
+                    .Select(t => new ToppingDTO
+                    {
+                        Id = t.Id,
+                        Name = t.Name,
+                        Price = t.Price,
+                    }).ToList():new List<ToppingDTO>(),
+                
+                }).ToList():new List<PizzaDTO>()
+
+
+            });
   
-    // }
+    }
 
 
     

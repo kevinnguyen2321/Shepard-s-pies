@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getAllOrders } from '../../managers/orderManager';
+import { useNavigate } from 'react-router-dom';
 
 export const OrdersList = () => {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllOrders().then((data) => setOrders(data));
@@ -22,6 +24,10 @@ export const OrdersList = () => {
     return formattedAmount;
   };
 
+  const handleViewClick = (orderId) => {
+    navigate(`/orders/${orderId}`);
+  };
+
   return (
     <div>
       <h1>Orders List</h1>
@@ -29,9 +35,13 @@ export const OrdersList = () => {
         {orders.map((order) => {
           return (
             <div key={order.id}>
-              <h3>Order {order.id}</h3>
+              <h3>Order #{order.id}</h3>
               <p>Order Placed on: {formatDateTime(order.orderPlacedOn)}</p>
               <p>Total:{formatToDollar(order.totalPrice)}</p>
+              <button onClick={() => handleViewClick(order.id)}>
+                View Order
+              </button>
+              <button>Cancel Order</button>
             </div>
           );
         })}
