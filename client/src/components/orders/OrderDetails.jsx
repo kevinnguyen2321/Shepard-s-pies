@@ -60,7 +60,7 @@ export const OrderDetails = () => {
                   <h5>Toppings</h5>
                   <ul>
                     {pizza.toppings.map((topping) => (
-                      <li key={topping.id}>{topping.name}(.50 ea)</li>
+                      <li key={topping.id}>{topping.topping.name}(.50 ea)</li>
                     ))}
                   </ul>
                 </div>

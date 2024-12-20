@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ShepardPies.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedData : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -77,6 +77,20 @@ namespace ShepardPies.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sauces", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Toppings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Toppings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -270,22 +284,27 @@ namespace ShepardPies.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Toppings",
+                name: "PizzaToppings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false),
-                    PizzaId = table.Column<int>(type: "integer", nullable: false)
+                    PizzaId = table.Column<int>(type: "integer", nullable: false),
+                    ToppingId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Toppings", x => x.Id);
+                    table.PrimaryKey("PK_PizzaToppings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Toppings_Pizzas_PizzaId",
+                        name: "FK_PizzaToppings_Pizzas_PizzaId",
                         column: x => x.PizzaId,
                         principalTable: "Pizzas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PizzaToppings_Toppings_ToppingId",
+                        column: x => x.ToppingId,
+                        principalTable: "Toppings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -304,12 +323,12 @@ namespace ShepardPies.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "a1bc2e97-e2fc-4a3f-b123-7ff861e69d38", 0, "28ef67a5-9633-4f2a-8f38-92b50c69ed40", "employee2@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAEL22zhpzcr0qR+dT9DHa3NyVnRlKrqYO++TMi0iKxc+S6Bh94tQsaoHCVaEuLqx5iQ==", null, false, "130ccdf1-585e-4cc6-bd5b-0a192cbc370a", false, "employee2" },
-                    { "b2cd3e97-f3dc-4b4f-b234-8ff861e69e39", 0, "f7333c77-2a41-4e65-aa44-53dbb709492b", "employee3@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAEBn/81B5D0DPD0ei9QwUMeVEjxkgFaxl4rP8bCSq1/D3M9xHLjdkBX3iWIO7Kbhb/g==", null, false, "6fcfd894-6901-4c63-bbb1-fa9d0e7ee978", false, "employee3" },
-                    { "c3de4e97-g4ec-4c5f-b345-9ff861e69f40", 0, "97de7068-5373-4535-95da-456409461e06", "employee4@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAEKsFNV4XSIbmg+PFJ/HvANbHx13q8OkVOE61HNpwtiSPoO8EiqVAEbUaR5NWGiJCJw==", null, false, "44157366-4bf6-4f79-be82-f299199b5284", false, "employee4" },
-                    { "d4ef5e97-h5fc-4d6f-b456-aff861e69g41", 0, "a13a990a-3ed9-49e0-b070-80503dab9807", "employee5@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAEImIN9Si8a3mcgsqGjRHO8O8CWdc9mTSl6/S1kCzn9Dvr2wT1qJENfDT5z5t8VojWA==", null, false, "9c8b0303-a817-41e1-8fb0-7a550617839d", false, "employee5" },
-                    { "d6bc2e97-e1fc-4a2f-b112-6ff861e69c37", 0, "5494bd2a-fed7-497f-82e0-7490dcf33f44", "employee1@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAEF9YUoqD/ZFgxL+tf/9ZiGpqDhXREdzkRCuDlZt0WVknxVrd4JM3ijDXGHoXIaKGTA==", null, false, "54c8c656-0b39-4f25-92a3-a240ac77138e", false, "employee1" },
-                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "52ce54fd-999c-4b62-88f4-959d3bdd0c0a", "admina@strator.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEDPdEvx+ErK+lR7rdzOvnit7SfuV2CNwVOvQg9mX2/cSjGMiF2Bqks3WCtqOgXoQdQ==", null, false, "8c16c827-9220-433b-8333-5c13421bc4f0", false, "Administrator" }
+                    { "a1bc2e97-e2fc-4a3f-b123-7ff861e69d38", 0, "ef372ea8-4945-4495-897a-c9322765c288", "employee2@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAEMbDvEW3n8lfT7ARzQtWwrG9RX624DjNobAM7c/jUsuDb1IAhAtZ3QngKqP3r3lf7w==", null, false, "9d09acb6-c112-4285-99e9-d9c1f3f75136", false, "employee2" },
+                    { "b2cd3e97-f3dc-4b4f-b234-8ff861e69e39", 0, "bd567098-acf8-4230-afb4-e37e896f34e4", "employee3@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAEKHem/uInjODh5nt0SQg6mez37j2HOGHJSMhj9hgJoyUZJ235p96GNtZeOfD7Y3ITA==", null, false, "65e21d22-7fa2-4f92-9606-e78bc3f1859d", false, "employee3" },
+                    { "c3de4e97-g4ec-4c5f-b345-9ff861e69f40", 0, "39ec0884-d4e2-4930-a748-673304960b08", "employee4@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAEJWcz3qYuO2cNpagP93TCRS9t4yEmXOyHPONXN3f0dZUN4RTr/B7HlaZuKfokj1/Ng==", null, false, "e6dbdc03-98c0-4030-8a02-0a4d2d189d3e", false, "employee4" },
+                    { "d4ef5e97-h5fc-4d6f-b456-aff861e69g41", 0, "8f476dc0-a3a3-4a31-a067-c92ebb70a086", "employee5@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAELgzCfaGzfvZwCEmqBuwwoeAZpxGgFYa/AQbX7FxHN2Xcg4ZPYrUqL3FlEk+auv7kQ==", null, false, "f558df9f-0c61-47cc-b3dd-2a661bf11db7", false, "employee5" },
+                    { "d6bc2e97-e1fc-4a2f-b112-6ff861e69c37", 0, "13ef7758-b64d-445c-957b-c02f70023aee", "employee1@company.com", false, false, null, null, null, "AQAAAAIAAYagAAAAECAvsoHef+dTM1YnIszI6ToT4YGpudUP19aWuvZ3k3a1ohDWpSh2ujKG3H+0+l23Zg==", null, false, "480f5526-8f9c-4f19-bb82-c5895fbb334a", false, "employee1" },
+                    { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "75c96a18-e8e6-4cd0-8ea9-27afaff7a3ab", "admina@strator.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEER3rKvnlElK4QUlfpxnk+LjoIqade1cwxiN6565m1rd6zNcJkqxN5ypmZr6baGzzg==", null, false, "f4f8cc37-e7eb-4a6e-8832-0250f74dd3fe", false, "Administrator" }
                 });
 
             migrationBuilder.InsertData(
@@ -332,6 +351,21 @@ namespace ShepardPies.Migrations
                     { 2, "Arrabbiata" },
                     { 3, "Garlic White" },
                     { 4, "None" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Toppings",
+                columns: new[] { "Id", "Name", "Price" },
+                values: new object[,]
+                {
+                    { 1, "Sausage", 0.50m },
+                    { 2, "Pepperoni", 0.50m },
+                    { 3, "Mushroom", 0.50m },
+                    { 4, "Onion", 0.50m },
+                    { 5, "Green Pepper", 0.50m },
+                    { 6, "Black Olive", 0.50m },
+                    { 7, "Basil", 0.50m },
+                    { 8, "Extra Cheese", 0.50m }
                 });
 
             migrationBuilder.InsertData(
@@ -377,22 +411,21 @@ namespace ShepardPies.Migrations
                 {
                     { 1, 1, 1, 10.00m, 1, "Small" },
                     { 2, 2, 1, 12.00m, 2, "Medium" },
-                    { 3, 3, 2, 15.00m, 3, "Large" }
+                    { 3, 3, 2, 15.00m, 3, "Large" },
+                    { 4, 2, 3, 15.00m, 1, "Large" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Toppings",
-                columns: new[] { "Id", "Name", "PizzaId", "Price" },
+                table: "PizzaToppings",
+                columns: new[] { "Id", "PizzaId", "ToppingId" },
                 values: new object[,]
                 {
-                    { 1, "Sausage", 1, 0.50m },
-                    { 2, "Pepperoni", 1, 0.50m },
-                    { 3, "Mushroom", 1, 0.50m },
-                    { 4, "Onion", 2, 0.50m },
-                    { 5, "Green Pepper", 2, 0.50m },
-                    { 6, "Black Olive", 2, 0.50m },
-                    { 7, "Basil", 3, 0.50m },
-                    { 8, "Extra Cheese", 3, 0.50m }
+                    { 1, 1, 1 },
+                    { 2, 1, 2 },
+                    { 3, 2, 3 },
+                    { 4, 2, 4 },
+                    { 5, 3, 5 },
+                    { 6, 4, 6 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -458,9 +491,14 @@ namespace ShepardPies.Migrations
                 column: "SauceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Toppings_PizzaId",
-                table: "Toppings",
+                name: "IX_PizzaToppings_PizzaId",
+                table: "PizzaToppings",
                 column: "PizzaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PizzaToppings_ToppingId",
+                table: "PizzaToppings",
+                column: "ToppingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserProfiles_IdentityUserId",
@@ -487,13 +525,16 @@ namespace ShepardPies.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Toppings");
+                name: "PizzaToppings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Pizzas");
+
+            migrationBuilder.DropTable(
+                name: "Toppings");
 
             migrationBuilder.DropTable(
                 name: "Cheeses");

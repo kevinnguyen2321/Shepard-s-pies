@@ -12,8 +12,8 @@ using ShepardPies.Data;
 namespace ShepardPies.Migrations
 {
     [DbContext(typeof(ShepardPiesDbContext))]
-    [Migration("20241218221602_SeedData")]
-    partial class SeedData
+    [Migration("20241220045441_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,13 +158,13 @@ namespace ShepardPies.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "52ce54fd-999c-4b62-88f4-959d3bdd0c0a",
+                            ConcurrencyStamp = "75c96a18-e8e6-4cd0-8ea9-27afaff7a3ab",
                             Email = "admina@strator.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEDPdEvx+ErK+lR7rdzOvnit7SfuV2CNwVOvQg9mX2/cSjGMiF2Bqks3WCtqOgXoQdQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEER3rKvnlElK4QUlfpxnk+LjoIqade1cwxiN6565m1rd6zNcJkqxN5ypmZr6baGzzg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8c16c827-9220-433b-8333-5c13421bc4f0",
+                            SecurityStamp = "f4f8cc37-e7eb-4a6e-8832-0250f74dd3fe",
                             TwoFactorEnabled = false,
                             UserName = "Administrator"
                         },
@@ -172,13 +172,13 @@ namespace ShepardPies.Migrations
                         {
                             Id = "d6bc2e97-e1fc-4a2f-b112-6ff861e69c37",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5494bd2a-fed7-497f-82e0-7490dcf33f44",
+                            ConcurrencyStamp = "13ef7758-b64d-445c-957b-c02f70023aee",
                             Email = "employee1@company.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEF9YUoqD/ZFgxL+tf/9ZiGpqDhXREdzkRCuDlZt0WVknxVrd4JM3ijDXGHoXIaKGTA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECAvsoHef+dTM1YnIszI6ToT4YGpudUP19aWuvZ3k3a1ohDWpSh2ujKG3H+0+l23Zg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "54c8c656-0b39-4f25-92a3-a240ac77138e",
+                            SecurityStamp = "480f5526-8f9c-4f19-bb82-c5895fbb334a",
                             TwoFactorEnabled = false,
                             UserName = "employee1"
                         },
@@ -186,13 +186,13 @@ namespace ShepardPies.Migrations
                         {
                             Id = "a1bc2e97-e2fc-4a3f-b123-7ff861e69d38",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "28ef67a5-9633-4f2a-8f38-92b50c69ed40",
+                            ConcurrencyStamp = "ef372ea8-4945-4495-897a-c9322765c288",
                             Email = "employee2@company.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEL22zhpzcr0qR+dT9DHa3NyVnRlKrqYO++TMi0iKxc+S6Bh94tQsaoHCVaEuLqx5iQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMbDvEW3n8lfT7ARzQtWwrG9RX624DjNobAM7c/jUsuDb1IAhAtZ3QngKqP3r3lf7w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "130ccdf1-585e-4cc6-bd5b-0a192cbc370a",
+                            SecurityStamp = "9d09acb6-c112-4285-99e9-d9c1f3f75136",
                             TwoFactorEnabled = false,
                             UserName = "employee2"
                         },
@@ -200,13 +200,13 @@ namespace ShepardPies.Migrations
                         {
                             Id = "b2cd3e97-f3dc-4b4f-b234-8ff861e69e39",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f7333c77-2a41-4e65-aa44-53dbb709492b",
+                            ConcurrencyStamp = "bd567098-acf8-4230-afb4-e37e896f34e4",
                             Email = "employee3@company.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEBn/81B5D0DPD0ei9QwUMeVEjxkgFaxl4rP8bCSq1/D3M9xHLjdkBX3iWIO7Kbhb/g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKHem/uInjODh5nt0SQg6mez37j2HOGHJSMhj9hgJoyUZJ235p96GNtZeOfD7Y3ITA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6fcfd894-6901-4c63-bbb1-fa9d0e7ee978",
+                            SecurityStamp = "65e21d22-7fa2-4f92-9606-e78bc3f1859d",
                             TwoFactorEnabled = false,
                             UserName = "employee3"
                         },
@@ -214,13 +214,13 @@ namespace ShepardPies.Migrations
                         {
                             Id = "c3de4e97-g4ec-4c5f-b345-9ff861e69f40",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "97de7068-5373-4535-95da-456409461e06",
+                            ConcurrencyStamp = "39ec0884-d4e2-4930-a748-673304960b08",
                             Email = "employee4@company.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEKsFNV4XSIbmg+PFJ/HvANbHx13q8OkVOE61HNpwtiSPoO8EiqVAEbUaR5NWGiJCJw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJWcz3qYuO2cNpagP93TCRS9t4yEmXOyHPONXN3f0dZUN4RTr/B7HlaZuKfokj1/Ng==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "44157366-4bf6-4f79-be82-f299199b5284",
+                            SecurityStamp = "e6dbdc03-98c0-4030-8a02-0a4d2d189d3e",
                             TwoFactorEnabled = false,
                             UserName = "employee4"
                         },
@@ -228,13 +228,13 @@ namespace ShepardPies.Migrations
                         {
                             Id = "d4ef5e97-h5fc-4d6f-b456-aff861e69g41",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a13a990a-3ed9-49e0-b070-80503dab9807",
+                            ConcurrencyStamp = "8f476dc0-a3a3-4a31-a067-c92ebb70a086",
                             Email = "employee5@company.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEImIN9Si8a3mcgsqGjRHO8O8CWdc9mTSl6/S1kCzn9Dvr2wT1qJENfDT5z5t8VojWA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELgzCfaGzfvZwCEmqBuwwoeAZpxGgFYa/AQbX7FxHN2Xcg4ZPYrUqL3FlEk+auv7kQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9c8b0303-a817-41e1-8fb0-7a550617839d",
+                            SecurityStamp = "f558df9f-0c61-47cc-b3dd-2a661bf11db7",
                             TwoFactorEnabled = false,
                             UserName = "employee5"
                         });
@@ -506,6 +506,76 @@ namespace ShepardPies.Migrations
                             Price = 15.00m,
                             SauceId = 3,
                             Size = "Large"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CheeseId = 2,
+                            OrderId = 3,
+                            Price = 15.00m,
+                            SauceId = 1,
+                            Size = "Large"
+                        });
+                });
+
+            modelBuilder.Entity("ShepardPies.Models.PizzaTopping", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PizzaId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ToppingId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PizzaId");
+
+                    b.HasIndex("ToppingId");
+
+                    b.ToTable("PizzaToppings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PizzaId = 1,
+                            ToppingId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PizzaId = 1,
+                            ToppingId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PizzaId = 2,
+                            ToppingId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            PizzaId = 2,
+                            ToppingId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            PizzaId = 3,
+                            ToppingId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            PizzaId = 4,
+                            ToppingId = 6
                         });
                 });
 
@@ -560,15 +630,10 @@ namespace ShepardPies.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("PizzaId")
-                        .HasColumnType("integer");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PizzaId");
 
                     b.ToTable("Toppings");
 
@@ -577,56 +642,48 @@ namespace ShepardPies.Migrations
                         {
                             Id = 1,
                             Name = "Sausage",
-                            PizzaId = 1,
                             Price = 0.50m
                         },
                         new
                         {
                             Id = 2,
                             Name = "Pepperoni",
-                            PizzaId = 1,
                             Price = 0.50m
                         },
                         new
                         {
                             Id = 3,
                             Name = "Mushroom",
-                            PizzaId = 1,
                             Price = 0.50m
                         },
                         new
                         {
                             Id = 4,
                             Name = "Onion",
-                            PizzaId = 2,
                             Price = 0.50m
                         },
                         new
                         {
                             Id = 5,
                             Name = "Green Pepper",
-                            PizzaId = 2,
                             Price = 0.50m
                         },
                         new
                         {
                             Id = 6,
                             Name = "Black Olive",
-                            PizzaId = 2,
                             Price = 0.50m
                         },
                         new
                         {
                             Id = 7,
                             Name = "Basil",
-                            PizzaId = 3,
                             Price = 0.50m
                         },
                         new
                         {
                             Id = 8,
                             Name = "Extra Cheese",
-                            PizzaId = 3,
                             Price = 0.50m
                         });
                 });
@@ -807,13 +864,23 @@ namespace ShepardPies.Migrations
                     b.Navigation("Sauce");
                 });
 
-            modelBuilder.Entity("ShepardPies.Models.Topping", b =>
+            modelBuilder.Entity("ShepardPies.Models.PizzaTopping", b =>
                 {
-                    b.HasOne("ShepardPies.Models.Pizza", null)
+                    b.HasOne("ShepardPies.Models.Pizza", "Pizza")
                         .WithMany("Toppings")
                         .HasForeignKey("PizzaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ShepardPies.Models.Topping", "Topping")
+                        .WithMany()
+                        .HasForeignKey("ToppingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pizza");
+
+                    b.Navigation("Topping");
                 });
 
             modelBuilder.Entity("ShepardPies.Models.UserProfile", b =>

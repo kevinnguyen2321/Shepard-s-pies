@@ -12,14 +12,14 @@ public class PizzaDTO
     public SauceDTO Sauce { get; set; }
     public int OrderId { get; set; }
     public OrderDTO Order { get; set; }
-    public List<ToppingDTO> Toppings { get; set; } = new List<ToppingDTO>();
+    public List<PizzaToppingDTO> Toppings { get; set; } = new List<PizzaToppingDTO>();
     public decimal TotalWithToppings 
     {
         get
         {
             decimal pizzaTotal = Price;
            
-            foreach (ToppingDTO topping in Toppings)
+            foreach (PizzaToppingDTO topping in Toppings)
             {
 
                 pizzaTotal += 0.50M;

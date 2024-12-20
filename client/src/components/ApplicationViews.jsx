@@ -5,6 +5,7 @@ import Register from './auth/Register';
 import { Home } from './home/Home';
 import { OrdersList } from './orders/OrdersList';
 import { OrderDetails } from './orders/OrderDetails';
+import { CreateNewOrderForm } from './orders/CreateNewOrderForm';
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -14,14 +15,36 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
           index
           element={
             <AuthorizedRoute loggedInUser={loggedInUser}>
-              <Home />
+              <Home loggedInUser={loggedInUser} />
             </AuthorizedRoute>
           }
         />
 
         <Route path="orders">
-          <Route index element={<OrdersList />} />
-          <Route path=":orderId" element={<OrderDetails />} />
+          <Route
+            index
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <OrdersList />
+              </AuthorizedRoute>
+            }
+          />
+          <Route
+            path=":orderId"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <OrderDetails />
+              </AuthorizedRoute>
+            }
+          />
+          <Route
+            path="new"
+            element={
+              <AuthorizedRoute loggedInUser={loggedInUser}>
+                <CreateNewOrderForm loggedInUser={loggedInUser} />
+              </AuthorizedRoute>
+            }
+          />
         </Route>
 
         <Route

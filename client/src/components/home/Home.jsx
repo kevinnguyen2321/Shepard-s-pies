@@ -4,7 +4,7 @@ export const Home = () => {
   const navigate = useNavigate();
 
   const handleNewOrderClick = () => {
-    console.log('hi');
+    navigate('/orders/new');
   };
   return (
     <div>

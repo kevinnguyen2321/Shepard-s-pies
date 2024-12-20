@@ -26,7 +26,6 @@ public class OrderController : ControllerBase
     {
         DateTime today = DateTime.Today;
         List<Order> orders = _dbContext.Orders
-            .Where(o => o.OrderPlacedOn.Date == today)
             .Include(o => o.OrderTaker)
             .Include(o => o.Driver)
             .Include(o => o.Pizzas)
@@ -34,17 +33,7 @@ public class OrderController : ControllerBase
             .OrderByDescending(o => o.OrderPlacedOn)
             .ToList();
 
-            if (orders.Count == 0)
-            {
-                orders = _dbContext.Orders
-                    .Include(o => o.OrderTaker)
-                    .Include(o => o.Driver)
-                    .Include(o => o.Pizzas)
-                    .ThenInclude(p => p.Toppings)
-                    .OrderByDescending(o => o.OrderPlacedOn)
-                    .ToList();
-                
-            }
+            
 
             return Ok(orders);
     }
@@ -64,6 +53,7 @@ public class OrderController : ControllerBase
             .ThenInclude(p => p.Cheese)
             .Include(o => o.Pizzas)
             .ThenInclude(p => p.Toppings)
+            .ThenInclude(pt => pt.Topping)
             .FirstOrDefault(o => o.Id == id);
 
             if (foundOrder == null)
@@ -109,18 +99,111 @@ public class OrderController : ControllerBase
                         Name = p.Cheese.Name,
                     }:null,
                     Toppings = p.Toppings != null ?  p.Toppings
-                    .Select(t => new ToppingDTO
+                    .Select(t => new PizzaToppingDTO
                     {
                         Id = t.Id,
-                        Name = t.Name,
-                        Price = t.Price,
-                    }).ToList():new List<ToppingDTO>(),
+                       PizzaId = t.PizzaId,
+                       Pizza = null,
+                       ToppingId = t.ToppingId,
+                          Topping = t.Topping != null ? new ToppingDTO
+                          {
+                            Id = t.Topping.Id,
+                            Name = t.Topping.Name,
+                            Price = t.Topping.Price,
+                          }:null,
+
+                    }).ToList():new List<PizzaToppingDTO>(),
                 
                 }).ToList():new List<PizzaDTO>()
 
 
             });
   
+    }
+
+    [HttpPost]
+    [Authorize]
+    public IActionResult CreateNewOrder(createOrderDTO orderDTO) 
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        Order newOrder = new Order
+        {
+            OrderPlacedOn = DateTime.Now,
+            UserProfileId = orderDTO.UserProfileId,
+            DriverId = orderDTO.DriverId,
+            Tip = orderDTO.Tip,
+        };
+
+        _dbContext.Orders.Add(newOrder);
+        _dbContext.SaveChanges();
+
+        return Created($"/api/order/{newOrder.Id}", newOrder);
+
+    }
+
+    [HttpPost("{id}/add-pizza")]
+    [Authorize]
+    public IActionResult AddPizzaWithToppingsToOrder(int id, CreatePizzaDTO pizzaDTO)
+    {
+        Order foundOrder = _dbContext.Orders
+        .FirstOrDefault(o => o.Id == id);
+
+        if (foundOrder == null)
+        {
+            return NotFound("Order not found");
+        }
+
+        
+
+
+         Pizza newPizza = new Pizza
+        {
+            Size = pizzaDTO.Size,
+            Price = pizzaDTO.Price,
+            CheeseId = pizzaDTO.CheeseId,
+            SauceId = pizzaDTO.SauceId,
+            OrderId = id,
+        };
+
+        _dbContext.Pizzas.Add(newPizza);
+          _dbContext.SaveChanges(); 
+        
+
+        foreach (int toppingId in pizzaDTO.ToppingIds)
+        {
+            PizzaTopping newPizzaTopping = new PizzaTopping
+            {
+                PizzaId = newPizza.Id,
+                ToppingId = toppingId,
+            };
+
+            _dbContext.PizzaToppings.Add(newPizzaTopping);
+        }
+
+            _dbContext.SaveChanges();
+
+        PizzaDTO newPizzaDTO = new PizzaDTO
+        {
+            Id = newPizza.Id,
+            Size = newPizza.Size,
+            Price = newPizza.Price,
+            CheeseId = newPizza.CheeseId,
+            SauceId = newPizza.SauceId,
+            OrderId = newPizza.OrderId,
+            Toppings = newPizza.Toppings.Select(pt => new PizzaToppingDTO
+            {
+                Id = pt.Id,
+                PizzaId = pt.PizzaId,
+                ToppingId = pt.ToppingId,
+            }).ToList(),
+        };
+
+        return Created($"/api/pizza/{id}/{newPizza.Id}", newPizzaDTO);
+
     }
 
 

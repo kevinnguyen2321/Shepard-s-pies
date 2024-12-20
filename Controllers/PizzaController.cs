@@ -18,22 +18,7 @@ public class PizzaController : ControllerBase
         _dbContext = context;
     }
 
-    // [HttpGet]
-    // [Authorize]
-    // public IActionResult Get()
-    // {
-    //    List<Pizza> pizzas = _dbContext.Pizzas
-                            
-        
-    // }
 
-    
-    // [HttpGet("{id}")]
-    // [Authorize]
-    // public IActionResult GetById(int id)
-    // {
-  
-    // }
 
 
     
