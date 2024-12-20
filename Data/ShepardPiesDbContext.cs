@@ -13,6 +13,8 @@ public class ShepardPiesDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Sauce> Sauces { get; set; }
     public DbSet<Cheese> Cheeses { get; set; }
     public DbSet<Topping> Toppings { get; set; }
+    public DbSet<PizzaTopping> PizzaToppings { get; set; }
+
 
 
     public ShepardPiesDbContext(DbContextOptions<ShepardPiesDbContext> context, IConfiguration config) : base(context)
@@ -181,7 +183,8 @@ public class ShepardPiesDbContext : IdentityDbContext<IdentityUser>
         {
             new Pizza { Id = 1, Size = "Small", Price = 10.00m, CheeseId = 1, SauceId = 1, OrderId = 1 },
             new Pizza { Id = 2, Size = "Medium", Price = 12.00m, CheeseId = 2, SauceId = 2, OrderId = 1 },
-            new Pizza { Id = 3, Size = "Large", Price = 15.00m, CheeseId = 3, SauceId = 3, OrderId = 2 }
+            new Pizza { Id = 3, Size = "Large", Price = 15.00m, CheeseId = 3, SauceId = 3, OrderId = 2 },
+            new Pizza { Id = 4, Size = "Large", Price = 15.00m, CheeseId = 2, SauceId = 1, OrderId = 3 }
         });
 
 
@@ -205,14 +208,14 @@ public class ShepardPiesDbContext : IdentityDbContext<IdentityUser>
 
         modelBuilder.Entity<Topping>().HasData(new Topping[]
         {
-            new Topping { Id = 1, Name = "Sausage", Price = 0.50m, PizzaId = 1 },
-            new Topping { Id = 2, Name = "Pepperoni", Price = 0.50m, PizzaId = 1 },
-            new Topping { Id = 3, Name = "Mushroom", Price = 0.50m, PizzaId = 1 },
-            new Topping { Id = 4, Name = "Onion", Price = 0.50m, PizzaId = 2 },
-            new Topping { Id = 5, Name = "Green Pepper", Price = 0.50m, PizzaId = 2 },
-            new Topping { Id = 6, Name = "Black Olive", Price = 0.50m, PizzaId = 2 },
-            new Topping { Id = 7, Name = "Basil", Price = 0.50m, PizzaId = 3 },
-            new Topping { Id = 8, Name = "Extra Cheese", Price = 0.50m, PizzaId = 3 }
+            new Topping { Id = 1, Name = "Sausage", Price = 0.50m, },
+            new Topping { Id = 2, Name = "Pepperoni", Price = 0.50m,},
+            new Topping { Id = 3, Name = "Mushroom", Price = 0.50m,},
+            new Topping { Id = 4, Name = "Onion", Price = 0.50m,},
+            new Topping { Id = 5, Name = "Green Pepper", Price = 0.50m,},
+            new Topping { Id = 6, Name = "Black Olive", Price = 0.50m,},
+            new Topping { Id = 7, Name = "Basil", Price = 0.50m,  },
+            new Topping { Id = 8, Name = "Extra Cheese", Price = 0.50m, }
         });
 
 
@@ -222,6 +225,17 @@ public class ShepardPiesDbContext : IdentityDbContext<IdentityUser>
             new Order { Id = 2, OrderPlacedOn = new DateTime(2024, 12, 16, 12, 0, 0), UserProfileId = 2, DriverId = 4, Tip = null }, 
             new Order { Id = 3, OrderPlacedOn = new DateTime(2024, 12, 17, 18, 45, 0), UserProfileId = 3, DriverId = 5, Tip = 7.00m }
         });
+
+        modelBuilder.Entity<PizzaTopping>().HasData(new PizzaTopping[]
+        {
+            new PizzaTopping {Id = 1, PizzaId = 1, ToppingId = 1 }, // Sausage on Pizza 1
+            new PizzaTopping {Id = 2, PizzaId = 1, ToppingId = 2 }, // Pepperoni on Pizza 1
+            new PizzaTopping {Id = 3, PizzaId = 2, ToppingId = 3 }, // Mushroom on Pizza 2
+            new PizzaTopping {Id = 4, PizzaId = 2, ToppingId = 4 }, // Onion on Pizza 2
+            new PizzaTopping { Id = 5, PizzaId = 3, ToppingId = 5 }, // Green Pepper on Pizza 3
+            new PizzaTopping {Id = 6,  PizzaId = 4, ToppingId = 6 }, // Black Olive on Pizza 4
+        });
+
 
         
     }

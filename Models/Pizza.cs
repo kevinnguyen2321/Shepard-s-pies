@@ -18,7 +18,7 @@ public class Pizza
     [Required]
     public int OrderId { get; set; }
     public Order Order { get; set; }
-    public List<Topping> Toppings { get; set; } = new List<Topping>();
+    public List<PizzaTopping> Toppings { get; set; } = new List<PizzaTopping>();
 
     public decimal TotalWithToppings 
     {
@@ -26,7 +26,7 @@ public class Pizza
         {
             decimal pizzaTotal = Price;
            
-            foreach (Topping topping in Toppings)
+            foreach (PizzaTopping topping in Toppings)
             {
 
                 pizzaTotal += 0.50M;
