@@ -55,3 +55,27 @@ export const createOrderAndAddPizza = async (order, pizza) => {
     throw error; // Re-throw to handle it at a higher level if needed
   }
 };
+
+export const removePizzaFromOrder = (orderId, pizzaId) => {
+  return fetch(`${_apiUrl}/${orderId}/remove-pizza?pizzaId=${pizzaId}`, {
+    method: 'PUT',
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error('Failed to remove pizza from order');
+    } else {
+      return { success: true, message: 'Pizza removed successfully' };
+    }
+  });
+};
+
+export const assignDriverToOrder = (orderId, driverId) => {
+  return fetch(`${_apiUrl}/${orderId}/assign-driver?driverId=${driverId}`, {
+    method: 'PUT',
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error('Failed to remove pizza from order');
+    } else {
+      return { success: true, message: 'Pizza removed successfully' };
+    }
+  });
+};

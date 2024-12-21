@@ -12,6 +12,11 @@
 }
 
 .order-total-wrapper p {
-    margin-top: 12px;
-    font-size: 1.2rem;
+  margin-top: 12px;
+  font-size: 1.2rem;
+}
+
+.pizza-section-wrapper {
+  display: flex;
+  gap: 35px;
 }

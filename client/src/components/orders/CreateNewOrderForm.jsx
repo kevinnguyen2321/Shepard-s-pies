@@ -5,8 +5,11 @@ import { getAllSauces } from '../../managers/sauceManager';
 import { getAllCheeses } from '../../managers/cheeseManager';
 import { getAllToppings } from '../../managers/toppingManager';
 import './CreateNewOrderForm.css';
-import { createOrderAndAddPizza } from '../../managers/orderManager';
-import { useNavigate } from 'react-router-dom';
+import {
+  addPizzaToOrder,
+  createOrderAndAddPizza,
+} from '../../managers/orderManager';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const CreateNewOrderForm = ({ loggedInUser }) => {
   const [employees, setEmployees] = useState([]);
@@ -18,6 +21,8 @@ export const CreateNewOrderForm = ({ loggedInUser }) => {
   });
   const [pizza, setPizza] = useState({ toppingIds: [] });
   const [isDelivery, setIsDelivery] = useState(false);
+
+  const { orderId } = useParams();
 
   const navigate = useNavigate();
 
@@ -110,6 +115,26 @@ export const CreateNewOrderForm = ({ loggedInUser }) => {
     }
   };
 
+  const handleAddPizzaToOrderClick = (orderId, pizza) => {
+    event.preventDefault();
+
+    if (!pizza.sauceId || !pizza.cheeseId || !pizza.price) {
+      alert('Please select a sauce and cheese for your pizza');
+      return;
+    } else {
+      if (pizza.price === 10.0) {
+        pizza.size = 'Small';
+      } else if (pizza.price === 12.0) {
+        pizza.size = 'Medium';
+      } else if (pizza.price === 15.0) {
+        pizza.size = 'Large';
+      }
+      addPizzaToOrder(orderId, pizza).then(() =>
+        navigate(`/orders/${orderId}`)
+      );
+    }
+  };
+
   return (
     <form>
       <label>Size</label>
@@ -157,12 +182,14 @@ export const CreateNewOrderForm = ({ loggedInUser }) => {
       </div>
 
       <div>
-        <button
-          className={isDelivery ? 'delivery' : ''}
-          onClick={toggleIsDelivery}
-        >
-          Delivery
-        </button>
+        {!orderId && (
+          <button
+            className={isDelivery ? 'delivery' : ''}
+            onClick={toggleIsDelivery}
+          >
+            Delivery
+          </button>
+        )}
         {isDelivery && (
           <div>
             <label>Driver</label>
@@ -177,18 +204,30 @@ export const CreateNewOrderForm = ({ loggedInUser }) => {
           </div>
         )}
         <div>
-          <label>Tip</label>
-          <input
-            id="tip"
-            type="number"
-            name="tip"
-            step="0.01"
-            min="0"
-            placeholder="Enter tip amount"
-            onChange={handleOrderChange}
-          />
+          {!orderId && (
+            <>
+              <label>Tip</label>
+              <input
+                id="tip"
+                type="number"
+                name="tip"
+                step="0.01"
+                min="0"
+                placeholder="Enter tip amount"
+                onChange={handleOrderChange}
+              />{' '}
+            </>
+          )}
           <div>
-            <button onClick={handleSubmitOrderClick}>Submit Order</button>
+            {orderId ? (
+              <button
+                onClick={() => handleAddPizzaToOrderClick(orderId, pizza)}
+              >
+                Add Pizza to Order
+              </button>
+            ) : (
+              <button onClick={handleSubmitOrderClick}>Submit Order</button>
+            )}
           </div>
         </div>
       </div>

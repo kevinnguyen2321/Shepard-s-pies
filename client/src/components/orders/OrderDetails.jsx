@@ -1,15 +1,27 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getOrderById } from '../../managers/orderManager';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  assignDriverToOrder,
+  getOrderById,
+  removePizzaFromOrder,
+} from '../../managers/orderManager';
 import './OrderDetails.css';
+import { getAllUserProfiles } from '../../managers/employeeManager';
 
 export const OrderDetails = () => {
   const [order, setOrder] = useState({});
+  const [employees, setEmployees] = useState([]);
+  const [driverId, setDriverId] = useState(null);
+
   const { orderId } = useParams();
 
   useEffect(() => {
     getOrderById(orderId).then((data) => setOrder(data));
+
+    getAllUserProfiles().then((data) => setEmployees(data));
   }, [orderId]);
+
+  const navigate = useNavigate();
 
   const formatDateTime = (dateTime) => {
     const date = new Date(dateTime);
@@ -25,6 +37,31 @@ export const OrderDetails = () => {
     return formattedAmount;
   };
 
+  const handleAddPizzaBtnClick = () => {
+    navigate(`/orders/${orderId}/add-pizza`);
+  };
+
+  const handleRemovePizzaBtnClick = (pizzaId) => {
+    removePizzaFromOrder(orderId, pizzaId).then(() =>
+      getOrderById(orderId).then((data) => setOrder(data))
+    );
+  };
+
+  const handleOnChangeDriver = (e) => {
+    if (e.target.value === '') {
+      setDriverId(null);
+      return;
+    } else {
+      setDriverId(parseInt(e.target.value));
+    }
+  };
+
+  const handleAssignDriverBtnClick = () => {
+    assignDriverToOrder(orderId, driverId).then(() =>
+      getOrderById(orderId).then((data) => setOrder(data))
+    );
+  };
+
   return (
     <div>
       <h2>Order Details</h2>
@@ -35,11 +72,38 @@ export const OrderDetails = () => {
           Order Taken by{' '}
           {`${order.orderTaker?.firstName} ${order.orderTaker?.lastName}`}
         </p>
-        {order.driver && <p>Delivery Driver: {order.driver.firstName}</p>}
+        {!order.driverId && (
+          <div>
+            <select onChange={handleOnChangeDriver}>
+              <option value="">Select a Driver</option>
+              {employees.map((driver) => (
+                <option key={driver.id} value={driver.id}>
+                  {driver.firstName} {driver.lastName}
+                </option>
+              ))}
+            </select>
+            <div>
+              <button onClick={handleAssignDriverBtnClick}>
+                Assign Driver
+              </button>
+            </div>
+          </div>
+        )}
+
+        {order.driver && (
+          <>
+            <p>Delivery Driver: {order.driver.firstName}</p>
+            <p>Delivery Fee: $5.00</p>
+          </>
+        )}
         <p>Tip: {order.tip ? formatToDollar(order.tip) : 'No Tip'}</p>
 
         <div>
-          <h4>Pizzas</h4>
+          <div className="pizza-section-wrapper">
+            <h4>Pizzas</h4>
+            <button onClick={handleAddPizzaBtnClick}>Add Pizza</button>
+          </div>
+
           {order.pizzas?.map((pizza) => {
             return (
               <div key={pizza.id} className="pizza-wrapper">
@@ -68,6 +132,11 @@ export const OrderDetails = () => {
                 <div>
                   <h5>Pizza Total</h5>
                   <p>{formatToDollar(pizza.totalWithToppings)}</p>
+                </div>
+                <div>
+                  <button onClick={() => handleRemovePizzaBtnClick(pizza.id)}>
+                    Remove Pizza
+                  </button>
                 </div>
               </div>
             );
