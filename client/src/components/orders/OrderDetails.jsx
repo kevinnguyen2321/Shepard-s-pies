@@ -62,6 +62,10 @@ export const OrderDetails = () => {
     );
   };
 
+  const handleEditPizzaBtnClick = (pizzaId) => {
+    navigate(`/orders/${orderId}/edit-pizza/${pizzaId}`);
+  };
+
   return (
     <div>
       <h2>Order Details</h2>
@@ -134,6 +138,9 @@ export const OrderDetails = () => {
                   <p>{formatToDollar(pizza.totalWithToppings)}</p>
                 </div>
                 <div>
+                  <button onClick={() => handleEditPizzaBtnClick(pizza.id)}>
+                    Edit Pizza
+                  </button>
                   <button onClick={() => handleRemovePizzaBtnClick(pizza.id)}>
                     Remove Pizza
                   </button>
