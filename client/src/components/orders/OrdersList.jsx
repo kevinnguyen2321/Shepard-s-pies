@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllOrders } from '../../managers/orderManager';
+import { deleteOrder, getAllOrders } from '../../managers/orderManager';
 import { useNavigate } from 'react-router-dom';
 
 export const OrdersList = () => {
@@ -28,6 +28,12 @@ export const OrdersList = () => {
     navigate(`/orders/${orderId}`);
   };
 
+  const handleCancelClick = (orderId) => {
+    deleteOrder(orderId).then(() =>
+      getAllOrders().then((data) => setOrders(data))
+    );
+  };
+
   return (
     <div>
       <h1>Orders List</h1>
@@ -41,7 +47,9 @@ export const OrdersList = () => {
               <button onClick={() => handleViewClick(order.id)}>
                 View Order
               </button>
-              <button>Cancel Order</button>
+              <button onClick={() => handleCancelClick(order.id)}>
+                Cancel Order
+              </button>
             </div>
           );
         })}
