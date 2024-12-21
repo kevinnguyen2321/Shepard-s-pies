@@ -29,14 +29,26 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               </AuthorizedRoute>
             }
           />
-          <Route
-            path=":orderId"
-            element={
-              <AuthorizedRoute loggedInUser={loggedInUser}>
-                <OrderDetails />
-              </AuthorizedRoute>
-            }
-          />
+          <Route path=":orderId">
+            <Route
+              index
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <OrderDetails />
+                </AuthorizedRoute>
+              }
+            />
+
+            <Route
+              path="add-pizza"
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <CreateNewOrderForm loggedInUser={loggedInUser} />
+                </AuthorizedRoute>
+              }
+            />
+          </Route>
+
           <Route
             path="new"
             element={

@@ -206,6 +206,72 @@ public class OrderController : ControllerBase
 
     }
 
+    [HttpPut("{id}/remove-pizza")]
+    [Authorize]
+    public IActionResult RemovePizzaFromOrder(int id, [FromQuery]int pizzaId)
+    {
+        if (pizzaId <= 0)
+        {
+            return BadRequest("Invalid pizza ID");
+        }
+        
+        Order foundOrder = _dbContext.Orders
+        .Include(o => o.Pizzas)
+        .FirstOrDefault(o => o.Id == id);
+
+        if (foundOrder == null)
+        {
+            return NotFound("Order not found");
+        }
+
+        Pizza foundPizza = foundOrder.Pizzas.FirstOrDefault(p => p.Id == pizzaId);
+
+        if (foundPizza == null)
+        {
+            return NotFound("Pizza not found");
+        }
+        
+        foundOrder.Pizzas.Remove(foundPizza);
+        _dbContext.Pizzas.Remove(foundPizza);
+        _dbContext.SaveChanges();
+
+        return NoContent();
+    }
+
+
+    [HttpPut("{id}/assign-driver")]
+    [Authorize]
+    public IActionResult AssignDriverToOrder(int id, [FromQuery]int driverId)
+    {
+        if (driverId <= 0)
+        {
+            return BadRequest("Invalid driver ID");
+        }
+
+        Order foundOrder = _dbContext.Orders
+        .FirstOrDefault(o => o.Id == id);
+
+        if (foundOrder == null)
+        {
+            return NotFound("Order not found");
+        }
+
+        UserProfile foundDriver = _dbContext.UserProfiles
+        .FirstOrDefault(u => u.Id == driverId);
+
+        if (foundDriver == null)
+        {
+            return NotFound("Driver not found");
+        }
+
+        foundOrder.DriverId = driverId;
+        _dbContext.SaveChanges();
+
+        return NoContent();
+    }
+
+ 
+
 
     
 
