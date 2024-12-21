@@ -6,6 +6,7 @@ import { Home } from './home/Home';
 import { OrdersList } from './orders/OrdersList';
 import { OrderDetails } from './orders/OrderDetails';
 import { CreateNewOrderForm } from './orders/CreateNewOrderForm';
+import { EditPizza } from './pizza/EditPizza';
 
 export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
   return (
@@ -44,6 +45,15 @@ export default function ApplicationViews({ loggedInUser, setLoggedInUser }) {
               element={
                 <AuthorizedRoute loggedInUser={loggedInUser}>
                   <CreateNewOrderForm loggedInUser={loggedInUser} />
+                </AuthorizedRoute>
+              }
+            />
+
+            <Route
+              path="edit-pizza/:pizzaId"
+              element={
+                <AuthorizedRoute loggedInUser={loggedInUser}>
+                  <EditPizza />
                 </AuthorizedRoute>
               }
             />
