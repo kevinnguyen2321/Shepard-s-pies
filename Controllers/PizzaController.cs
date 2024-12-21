@@ -20,7 +20,7 @@ public class PizzaController : ControllerBase
 
 
     [HttpPut("{id}")]
-    // [Authorize]
+    [Authorize]
     public IActionResult UpdatePizza(int id, UpdatePizzaDTO pizzaDTO)
     {
         Pizza pizzaToUpdate = _dbContext.Pizzas
@@ -63,7 +63,7 @@ public class PizzaController : ControllerBase
 
 
     [HttpGet("{id}")]
-    // [Authorize]
+    [Authorize]
     public IActionResult GetPizzaById(int id)
     {
         Pizza foundPizza = _dbContext.Pizzas

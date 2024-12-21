@@ -79,3 +79,15 @@ export const assignDriverToOrder = (orderId, driverId) => {
     }
   });
 };
+
+export const deleteOrder = (id) => {
+  return fetch(`${_apiUrl}/${id}`, {
+    method: 'DELETE',
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error('Failed to delete order');
+    } else {
+      return { success: true, message: 'Order deleted successfully' };
+    }
+  });
+};
