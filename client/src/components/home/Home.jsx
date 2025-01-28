@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
+import PizzaImage from '../../assets/pizza.PNG';
 
 export const Home = () => {
   const navigate = useNavigate();
