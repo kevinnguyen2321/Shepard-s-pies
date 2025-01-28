@@ -1,6 +1,9 @@
 .main-container {
   border: solid black;
-  width: 100%;
   margin: 250px auto 0 auto;
   text-align: center;
+  background-image: url('../../assets/pizza.jpg');
+  background-size: cover; /* Makes the image cover the container */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
 }
