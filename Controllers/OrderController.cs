@@ -271,7 +271,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    // [Authorize]
+    [Authorize]
     public IActionResult DeleteOrder(int id)
     {
         Order foundOrder = _dbContext.Orders
